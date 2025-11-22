@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    background-image: url("../img/bg-white-texture.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.center-box {
+    text-align: center;
+}
+
+.title-header, .title-subheader {
+    margin: 0;
+    text-align: center;
+    text-shadow: 0px 8px 15px rgba(0, 0, 0, 0.664),
+                 0px 0px 10px rgba(255, 255, 255, 0.25);
+}
+.title-header {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.title-subheader {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+.title-header, .title-subheader {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
