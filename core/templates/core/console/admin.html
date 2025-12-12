@@ -1,0 +1,110 @@
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navidad 2025 - Panel de Administración</title>
+    <!-- Bootstrap 5.3 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'core/css/custom-console.css' %}" rel="stylesheet" >
+</head>
+<body>
+    <div class="container w-75 mx-auto pt-3">
+        <div class="bg-light text-dark rounded-5 shadow-lg p-4">
+            
+            <header class="mb-4 d-flex flex-column align-items-center gap-2">
+                <h1 class="h1 text-center mb-1">Familia Torres</h1>
+                <h5 class="h5 text-center text-muted mb-0">Control Panel</h5>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-info btn-sm">← Back to Dashboard</a>
+            </header>
+
+            <div class="card shadow shadow-lg mb-4">
+                <div class="card-header bg-secondary text-white mb-3">
+                    Admin Actions
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <!--Clear all confirmations-->
+                        <button type="submit" name="clearConfirmations" value="clear_confirmations" class="btn btn-info btn-sm">Clear All Confirmations</button>
+                        <!--Reset Database-->
+                        <button type="submit" name="resetDatabase" value="reset_database" class="btn btn-danger btn-sm">Reset Database</button>
+                        <!--Assign PIN and Username-->
+                        <a href="{% url 'assigments' %}?action=assignPinUser" name="assignPinUser" value="assignPinUser" class="btn btn-info btn-sm">Assign PINs and Usernames</a>
+                        <!--Assign Secret Friends-->
+                        <button type="submit" name="assignSecretFriends" value="assign_secret_friends" class="btn btn-info btn-sm">Assign Secret Friends</button>
+                        <!--Unlock Users-->
+                        <button type="submit" name="unlockUsers" value="unlock_users" class="btn btn-info btn-sm">Unlock Users</button>
+                    </form>
+                </div>
+            </div>
+            <!-- CARD: Add new Family Group -->
+            <div class="card shadow shadow-lg">
+                <div class="card-header bg-secondary text-white mb-3">
+                    Add New Family Group
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for family_group in family_groups %}
+                            <li>{{family_group.family_group_id}}. Fam: {{ family_group.family_name }}</li>
+                        {% empty %}
+                            <li>No family groups added yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'save_family_group' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="family_name" class="form-label">Family Name:</label>
+                            <input type="text" class="form-control" id="family_name" name="family_name" placeholder="Enter Family Name" required>
+                        </div>
+                        <button type="submit" name="action" value="save_family_group" class="btn btn-dark btn-sm">Add Family Name</button>
+                    </form>
+                </div>
+            </div>
+
+            <!--Add new Family Member -->
+            <div class="card shadow shadow-lg mt-4">
+                <div class="card-header bg-secondary text-white mb-3">
+                    Add New Family Member
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for family_guest in family_guests %}
+                            <li>PIN: <b>{{ family_guest.pin }}</b>. {{ family_guest.family_group.family_name }}, {{ family_guest.name }} - {% if family_guest.confirmed %}(Confirmed){% endif %}</li>
+                        {% empty %}
+                            <li>No Guests added yet.</li>
+                        {% endfor %}
+                    </ul>
+                    <form method="POST" action="{% url 'addGuest' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="hidden" name="pin" value="{{ unique_random_pin }}">
+                            <label for="GuestName" class="form-label">Guest Name:</label>
+                            <input type="text" class="form-control" id="GuestName" name="guest_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="familyGroup" class="form-label">Family Group:</label>
+                            <select class="form-select" id="familyGroup" name="family_group">
+                                {% for family_group in family_groups %}
+                                    <option value="{{ family_group.family_group_id }}">{{ family_group.family_group_id }} - {{ family_group.family_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pin" class="form-label">PIN:</label>
+                            <h3 readonly>{{ unique_random_pin }}</h3>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="isConfirmed" name="isConfirmed">
+                            <label class="form-check-label" for="isConfirmed">Confirmed</label>
+                        </div>
+                        <button type="submit" action="addGuest" class="btn btn-dark btn-sm">Add Guest</button>
+                      <!--Add new Family Member -->
+                    </form>
+                </div>
+             </div>
+    </div>
+</body>
+</html>

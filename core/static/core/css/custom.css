@@ -1,0 +1,66 @@
+body {
+    
+    background-color: #f0f0f0;
+    background-image: url("../img/bg-xmas.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+/* Capa oscura centrada */
+.overlay-alert {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1080; /* por encima de casi todo (modals ~1055) */
+    background: rgba(15, 23, 42, 0.35); /* fondito oscuro translúcido */
+}
+
+/* Caja del alert */
+.custom-alert {
+    margin: 0;
+    max-width: 480px;
+    width: min(90vw, 480px);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.45);
+    font-size: 0.95rem;
+}
+
+/* Animaciones */
+.custom-alert.fade-in {
+    animation: alertFadeIn 1s ease-out forwards;
+}
+
+.custom-alert.fade-out {
+    animation: alertFadeOut 1s ease-in forwards;
+}
+
+@keyframes alertFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes alertFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+}
