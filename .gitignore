@@ -19,6 +19,12 @@ db.sqlite3
 *.log
 
 # Django secret key file
+secret_key.txt
+secrets.json
 
 # OS
 Thumbs.db
+.DS_Store
+
+# Gunicorn
+gunicorn.pid
