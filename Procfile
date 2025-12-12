@@ -1,1 +1,1 @@
-web: gunicorn amigosecreto.wsgi
+web: python manage.py migrate && gunicorn amigosecreto.wsgi
