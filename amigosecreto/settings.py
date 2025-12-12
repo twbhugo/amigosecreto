@@ -23,7 +23,7 @@ AUTH_PIN = os.getenv('AUTH_PIN')
 ADMIN_AUTH_PIN = os.getenv('ADMIN_AUTH_PIN')
 
 # Máximo número de intentos fallidos de inicio de sesión antes de bloquear la cuenta
-MAX_FAILED_LOGIN_ATTEMPTS= int(os.getenv('MAX_FAILED_LOGIN_ATTEMPTS'), )
+MAX_FAILED_LOGIN_ATTEMPTS= int(os.getenv('MAX_FAILED_LOGIN_ATTEMPTS'), 5)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
