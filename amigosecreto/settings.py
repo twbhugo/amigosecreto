@@ -43,8 +43,8 @@ ALLOWED_HOSTS = ['*']
 
 # CSRF_TRUSTED_ORIGINS
 CSRF_TRUSTED_ORIGINS = [
-    'https://web-production-a6c38.up.railway.app/',
-    'https://navidad.twbapps.com/'
+    'https://web-production-a6c38.up.railway.app',
+    'https://navidad.twbapps.com'
 ]
 
 
