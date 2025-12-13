@@ -97,6 +97,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Using SQLite for development purposes
 
 if os.getenv("ENVIRONMENT") == "RAILWAY":
+    print("Using PostgreSQL database settings from environment variables")
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -108,6 +109,7 @@ if os.getenv("ENVIRONMENT") == "RAILWAY":
         }
     }
 else:
+    print("Using default SQLite database settings")
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
