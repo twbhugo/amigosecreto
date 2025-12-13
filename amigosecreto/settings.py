@@ -37,16 +37,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
+# Allow all hosts for development purposes
+if os.getenv("RAILWAY_ENVIRONMENT"):
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+else:
+    ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
+
 
 # CSRF_TRUSTED_ORIGINS
-CSRF_TRUSTED_ORIGINS = [
-    'https://web-production-a6c38.up.railway.app',
-    'https://navidad.twbapps.com'
-]
-
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 # Application definition
 
@@ -93,14 +94,27 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# Using SQLite for development purposes
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv("RAILWAY_ENVIRONMENT"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("PGDATABASE"),
+            "USER": os.getenv("PGUSER"),
+            "PASSWORD": os.getenv("PGPASSWORD"),
+            "HOST": os.getenv("PGHOST"),
+            "PORT": os.getenv("PGPORT"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3"
+        }
+    }
+
 
 
 # Password validation
