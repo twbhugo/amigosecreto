@@ -14,11 +14,13 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 load_dotenv()
 
-#Base_dir definition
-BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_URL = '/static/'
 
 # PIN de autenticación para acceder a la aplicación
 AUTH_PIN = os.getenv('AUTH_PIN')
