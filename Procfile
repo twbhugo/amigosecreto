@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn amigosecreto.wsgi
+web: python manage.py migrate --verbosity 2 && python manage.py collectstatic --noinput && gunicorn amigosecreto.wsgi
