@@ -15,10 +15,13 @@ import os
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
+STATICFILES_DIRS = [
+    BASE_DIR / "core" / "static",
+]
+print("STATICFILES_DIRS:", STATICFILES_DIRS)
+print("STATIC_ROOT:", STATIC_ROOT)
 load_dotenv()
 
 
