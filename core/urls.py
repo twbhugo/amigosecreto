@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import addGuest, home, dashboard, logout, confirm_assistance, view_secret_friend, console, admin_console, save_family_group, assigments
+from core.views import addGuest, home, dashboard, logout, confirm_assistance, view_secret_friend, console, admin_console, save_family_group, assigments, save_gift_idea
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('console/save_family_group/', save_family_group, name='save_family_group'),
     path('console/add_guest/', addGuest, name='addGuest'),
     path('assigments/', assigments, name='assigments'),
+    path('save_gift_idea/', save_gift_idea, name='save_gift_idea'),
 ]

@@ -60,11 +60,16 @@
                         Se llevará a cabo en la Residencia Rivera Torres a el 24 de diciembre a las 8:00 PM. El dress code es temática navideña.
                         El menú incluirá las siguientes opciones:
                         <ul>
-                            <li>Entrada: Ensalada Oli's</li>
-                            <li>Plato principal: tamales de la casa</li>
-                            <li>Guarnición: Coditos con crema</li>
-                            <li>Bebida: Barra de refrescos</li>
-                            <li>Postre: Natilla de Maicena al estilo Tia Oly</li>
+                            <li>Tamales variados</li>
+                            <li>Carne con chile verde al estilo Blanca's</li>
+                            <li>Pierna en adobo</li>
+                            <li>Mole con pollo</li>
+                            <li>Pizza para los peques</li>
+                            <li>Ensalad al estilo Oli's</li>
+                            <li>Pasta con crema</li>
+                            <li>Frijoles refritos</li>
+                            <li>Pastel navideño</li>
+                            <li>Bebidas sin alcohol</li>
                         </ul>
                         Sobre las bebidas alcohólicas, cada quien puede traer lo que prefiera.
                     </p>
@@ -138,15 +143,59 @@
                 </div>
                 <div class="card-body align-center justify-content-center">
                     <p class="card-text">
-                        ¡Es hora de descubrir a tu Amigo Secreto! Haz clic en el botón de abajo para ver a quién te tocará regalar.
-                        <br>
-                        El rango de presupuesto sugerido (entre $300 y $500 MXN).
-                        <br>
-                        Recuerda que para participar, debes haber confirmado tu asistencia a la cena.
+                    ¡Bienvenido al Amigo Secreto! Aquí no hay pierde, solo buena vibra, risas!!!
+                    <h6 class="card-text m-2">Presupuesto:</h6>
+                    <p class="card-text">El regalo debe estar entre $300 y $500 MXN.</p>
+                    <h6 class="card-text m-2">Actualizar tu regalo ideal:</h6>
+                    <p class="card-text">Ayúdanle a tu amigo secreto a atinarle: escribe qué te gustaría recibir en el texto de abajo. Puedes cambiar tu idea las veces que quieras</p>
+                    <h6 class="card-text m-2">Ver mi amigo secreto:</h6>
+                    <p class="card-text">El botón “Ver mi amigo secreto” revela el gran misterio… sl dar clic, sabrás a quién te toca regalarle. Ese nombre es top secret, así que no lo quemes.</p>
+                    <h6 class="card-text m-2">Notas:</h6>
+                    <p class="card-text">
+                        <ul>
+                            <li>Debes haber confirmado tu asistencia para participar en el Amigo Secreto.</li>
+                            <li>Recuerda que el objetivo es divertirse y compartir momentos agradables en familia.</li>
+                            <li>El dia del evento llevar solamente el regalo de tu amigo secreto.</li>
+                        </ul>
                     </p>
-                    <a class="btn btn-success btn-sm" type="button" href="{% url 'view_secret_friend' %}">
-                        Ver mi Amigo Secreto
-                    </a>
+                    <div class="mb-4 navbar rounded-4 shadow shadow-md p-2 justify-content-center w-50 mx-auto">
+                        <p class="h4">Mi regalo ideal sería:</p>
+                        <input
+                            type="text"
+                            class="form-control m-2"
+                            id="gift_idea"
+                            name="gift_idea"
+                            placeholder="{% if request.session.ideal_gift %}Anterior: {{ request.session.ideal_gift }}{% else %}Escribe tu idea de regalo aquí{% endif %}"
+                            value="{% if request.session.ideal_gift %}{{ request.session.ideal_gift }}{% endif %}"
+                        >
+                        <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const input = document.getElementById("gift_idea");
+                            const link = document.getElementById("save_gift_idea_btn");
+
+                            function updateLink() {
+                                const value = input.value.trim();
+
+                                if (value === "") {
+                                    link.style.display = "none";
+                                    link.href = "#";
+                                } else {
+                                    const encoded = encodeURIComponent(value);
+                                    link.href = "{% url 'save_gift_idea' %}?action=save_gift_idea&gift_idea=" + encoded;
+                                    link.style.display = "inline-block";
+                                }
+                            }
+                            updateLink();
+                            input.addEventListener("input", updateLink);
+                        });
+                        </script>
+                        <a class="btn btn-outline-success btn-sm m-1" id="save_gift_idea_btn" href="#" style="display: none;">
+                            Guardar mi idea de regalo
+                        </a> 
+                        <a class="btn btn-outline-success btn-sm m-1" type="button" href="{% url 'view_secret_friend' %}">
+                            Ver mi Amigo Secreto
+                        </a>
+                    </div>
                 </div>
             </div>
             <footer class="mt-4 text-center text-muted small">

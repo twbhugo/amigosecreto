@@ -97,3 +97,20 @@ def unlock_guest_account(guest_id):
         guest.save()
         return True
     return False
+
+# Return Guest's secret friend
+def get_secret_friend(guest):
+    try:
+        secret_friend = guest.secret_friend
+        return secret_friend
+    except Guest.DoesNotExist:
+        return None
+    
+# Update Guest's gift idea
+def update_guest_gift_idea(guest_id, gift_idea):
+    guest = get_guest_by_id(guest_id=guest_id)
+    if guest:
+        guest.gift_idea = gift_idea
+        guest.save()
+        return True
+    return False

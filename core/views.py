@@ -217,3 +217,26 @@ def assigments(request):
         except Guest.DoesNotExist:
             print(f"Guest with ID {guest_id} does not exist.")
             return redirect('home')
+        
+#view to save ideal gift
+def save_gift_idea(request):
+    if not request.session.get('authenticated'):
+        return redirect('home')
+    
+    if request.method == 'GET':
+        action = request.GET.get('action')
+        gift_idea = request.GET.get('gift_idea', '').strip()
+        print(f"Action received for saving gift idea: {action}")
+
+        if action == 'save_gift_idea' and gift_idea:
+            guest_id = request.session.get('guest_id')
+            try:
+                guest = Guest.objects.get(guest_id=guest_id)
+                guest.ideal_gift = gift_idea
+                guest.save()
+                request.session['ideal_gift'] = gift_idea
+                print(f"Guest with ID {guest_id} saved ideal gift: {gift_idea}")
+            except Guest.DoesNotExist:
+                print(f"Guest with ID {guest_id} does not exist.")
+        
+    return render(request, 'core/save_gift.html')
