@@ -1,1 +1,1 @@
-web: python manage.py migrate --verbosity 2 && python manage.py collectstatic --noinput && gunicorn amigosecreto.wsgi
+web: bash -c "echo '>>> Running migrate' && python manage.py migrate --verbosity 2 && echo '>>> Migrate done' && python manage.py collectstatic --noinput && echo '>>> Collectstatic done' && gunicorn amigosecreto.wsgi"
