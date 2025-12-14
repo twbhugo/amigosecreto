@@ -20,3 +20,5 @@ DATABASES={
         "PORT": os.getenv("PGPORT", "5432"),
     }
 }
+
+#gunicorn amigosecreto.wsgi

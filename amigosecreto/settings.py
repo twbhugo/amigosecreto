@@ -16,6 +16,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+#Base_dir definition
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_URL = '/static/'
+
 # PIN de autenticación para acceder a la aplicación
 AUTH_PIN = os.getenv('AUTH_PIN')
 
@@ -61,7 +65,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
 ]
 
-STATIC_URL = 'static/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
