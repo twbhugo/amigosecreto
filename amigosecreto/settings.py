@@ -22,6 +22,8 @@ STATICFILES_DIRS = [
 ]
 print("STATICFILES_DIRS:", STATICFILES_DIRS)
 print("STATIC_ROOT:", STATIC_ROOT)
+print("Collected static exists?:", (STATIC_ROOT / 'core/css/custom.css').exists())
+
 load_dotenv()
 
 
