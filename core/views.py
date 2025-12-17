@@ -7,7 +7,7 @@ from .forms import FamilyGroupForm, GuestForm
 from .models import FamilyGroup, Guest #type: ignore
 from .services.auth import validate_username_and_pin, validatePIN, validateAdminPIN
 from .services.assigment import assign_username_and_hashed_pins
-from .services.queries import get_confirmed_guests_by_family_group, get_guest_by_pin, confirm_guest_attendance, cancel_guest_attendance
+from .services.queries import get_confirmed_guests_by_family_group, get_guest_by_pin, confirm_guest_attendance, cancel_guest_attendance, get_secret_friend_for_guest
 import random
 
 # New home view with PIN and username validation
@@ -74,11 +74,6 @@ def dashboard(request):
     confirmed_family_groups = get_confirmed_guests_by_family_group()
     return render(request, 'core/dashboard.html', {'confirmed_family_groups': confirmed_family_groups})
 
-#View to view secret friend
-def view_secret_friend(request):    
-    if not request.session.get('authenticated'):
-        return redirect('home')
-    return render(request, 'core/secret_friend.html')
 
 # View to confirm assistance
 def confirm_assistance(request):
@@ -138,9 +133,16 @@ def admin_console(request):
     def getFamilyGuests():
         return Guest.objects.all()
     
+    def getGuestsSecretFriend():
+        guest_name = getFamilyGuests().name
+        guest_secret_friend_name = getFamilyGuests().secret_friend
+        guest_secret_friend = guest_secret_friend_name.name if guest_secret_friend_name else "No asignado"
+
+        return (guest_name, guest_secret_friend)
+    
     if request.method == 'GET':
         print("Admin Console accessed via GET request.")
-        return render(request, 'core/console/admin.html', {'unique_random_pin': generar_pin_unico(), 'family_groups': getFamilyGroups(), 'family_guests': getFamilyGuests()})
+        return render(request, 'core/console/admin.html', {'unique_random_pin': generar_pin_unico(), 'family_groups': getFamilyGroups(), 'family_guests': getFamilyGuests(), 'guests_secret_friend': getGuestsSecretFriend()})
     
     if request.method == 'POST':
         print("Admin Console accessed via POST request.")
@@ -240,3 +242,22 @@ def save_gift_idea(request):
                 print(f"Guest with ID {guest_id} does not exist.")
         
     return render(request, 'core/save_gift.html')
+
+# View to see secret friend details
+def view_secret_friend(request):    
+    if not request.session.get('authenticated'):
+        return redirect('home')
+    
+    guest_id = request.session.get('guest_id')
+    try:
+        guest = Guest.objects.get(guest_id=guest_id)
+        secret_friend = get_secret_friend_for_guest(guest)
+        secret_friend_name = secret_friend.name if secret_friend else "No asignado"
+        print(f"Secret friend for Guest ID {guest_id} is {secret_friend_name}.")
+        secret_friend_family_group = secret_friend.family_group.family_name if secret_friend and secret_friend.family_group else "No asignado"
+        secret_friend_ideal_gift = secret_friend.ideal_gift if secret_friend else "No asignado"
+        print(f"Secret friend's ideal gift: {secret_friend_ideal_gift}")
+        return render(request, 'core/secret_friend.html', {'secret_friend': secret_friend, 'secret_friend_name': secret_friend_name, 'secret_friend_family_group': secret_friend_family_group, 'secret_friend_ideal_gift': secret_friend_ideal_gift})
+    except Guest.DoesNotExist:
+        print(f"Guest with ID {guest_id} does not exist.")
+        return redirect('home')

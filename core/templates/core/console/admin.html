@@ -64,47 +64,34 @@
                 </div>
             </div>
 
-            <!--Add new Family Member -->
+            <!--Gues's secret friend report showing Guest and its Secret Friend-->
             <div class="card shadow shadow-lg mt-4">
                 <div class="card-header bg-secondary text-white mb-3">
-                    Add New Family Member
+                    Guest - Secret Friend Report
                 </div>
                 <div class="card-body">
-                    <ul>
-                        {% for family_guest in family_guests %}
-                            <li>PIN: <b>{{ family_guest.pin }}</b>. {{ family_guest.family_group.family_name }}, {{ family_guest.name }} - {% if family_guest.confirmed %}(Confirmed){% endif %}</li>
-                        {% empty %}
-                            <li>No Guests added yet.</li>
-                        {% endfor %}
-                    </ul>
-                    <form method="POST" action="{% url 'addGuest' %}">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <input type="hidden" name="pin" value="{{ unique_random_pin }}">
-                            <label for="GuestName" class="form-label">Guest Name:</label>
-                            <input type="text" class="form-control" id="GuestName" name="guest_name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="familyGroup" class="form-label">Family Group:</label>
-                            <select class="form-select" id="familyGroup" name="family_group">
-                                {% for family_group in family_groups %}
-                                    <option value="{{ family_group.family_group_id }}">{{ family_group.family_group_id }} - {{ family_group.family_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pin" class="form-label">PIN:</label>
-                            <h3 readonly>{{ unique_random_pin }}</h3>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="isConfirmed" name="isConfirmed">
-                            <label class="form-check-label" for="isConfirmed">Confirmed</label>
-                        </div>
-                        <button type="submit" action="addGuest" class="btn btn-dark btn-sm">Add Guest</button>
-                      <!--Add new Family Member -->
-                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Guest Name</th>
+                                <th>Secret Friend Name</th>
+                                <th>Secret Friend's Ideal Gift</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in secret_friend_reports %}
+                            <tr>
+                                <td>{{ report.guest_name }}</td>
+                                <td>{{ report.secret_friend_name }}</td>
+                                <td>{{ report.secret_friend_ideal_gift }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3">No secret friend assignments yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-             </div>
-    </div>
 </body>
 </html>

@@ -114,3 +114,35 @@ def update_guest_gift_idea(guest_id, gift_idea):
         guest.save()
         return True
     return False
+
+# Get Secret Friend for a given Guest
+def get_secret_friend_for_guest(guest):
+    secret_friend = get_secret_friend(guest)
+    return secret_friend
+
+# Get Secret Friend's gift idea
+def get_secret_friend_gift_idea(guest):
+    secret_friend = get_secret_friend(guest)
+    if secret_friend:
+        return secret_friend.gift_idea
+    return None
+
+# Get confirmed guests
+def get_all_confirmed_guests():
+    return Guest.objects.filter(confirmed=True)
+
+# Update Gues's secret friend
+def update_guest_secret_friend(guest_id, secret_friend):
+    guest = get_guest_by_id(guest_id=guest_id)
+    if guest:
+        guest.secret_friend = secret_friend
+        guest.save()
+        return True
+    return False
+
+# Get secret friend by Guest ID
+def get_secret_friend_by_guest_id(guest_id):
+    guest = get_guest_by_id(guest_id=guest_id)
+    if guest:
+        return get_secret_friend(guest)
+    return None
